@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <title>CardMitra – Track & Maximize Your Card Rewards</title>
+</head>
+
+<body>
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 1 – LOGIN / REGISTER
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-auth" class="screen active">
+    <div class="auth-brand">
+      <div class="brand-logo"><i class="fa-solid fa-credit-card"></i></div>
+      <span class="brand-name">CardMitra</span>
+      <span class="brand-tagline">Your Personal Rewards Expert</span>
+    </div>
+    <div class="container" id="container">
+      <!-- Sign Up -->
+      <div class="sign-up">
+        <form id="signupForm">
+          <h1>Create Account</h1>
+          <div class="icons">
+            <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+          </div>
+          <span>or use email for registration</span>
+          <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="su-name" placeholder="Full Name" required />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="su-email" placeholder="Email Address" required />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-phone"></i>
+            <input type="tel" id="su-phone" placeholder="Mobile Number" />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="su-pass" placeholder="Password" required />
+            <i class="fa-solid fa-eye toggle-pass"></i>
+          </div>
+          <button type="button" onclick="doSignup()">Sign Up</button>
+        </form>
+      </div>
+      <!-- Sign In -->
+      <div class="sign-in">
+        <form id="signinForm">
+          <h1>Sign In</h1>
+          <div class="icons">
+            <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+          </div>
+          <span>or use email &amp; password</span>
+          <div class="input-group">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="si-email" placeholder="Email Address" required />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="si-pass" placeholder="Password" required />
+            <i class="fa-solid fa-eye toggle-pass"></i>
+          </div>
+          <a href="#" class="forgot-link">Forgot password?</a>
+          <button type="button" onclick="doSignin()">Sign In</button>
+          <div class="biometric-row">
+            <button type="button" class="bio-btn" title="Fingerprint Login"><i
+                class="fa-solid fa-fingerprint"></i></button>
+            <button type="button" class="bio-btn" title="Face ID"><i class="fa-solid fa-face-smile"></i></button>
+          </div>
+        </form>
+      </div>
+      <!-- Toggle Panel -->
+      <div class="toogle-container">
+        <div class="toogle">
+          <div class="toogle-panel toogle-left">
+            <div class="toggle-icon"><i class="fa-solid fa-credit-card"></i></div>
+            <h1>Welcome Back!</h1>
+            <p>Already have an account? Sign in to track your rewards</p>
+            <button class="hidden" id="login">Sign In</button>
+          </div>
+          <div class="toogle-panel toogle-right">
+            <div class="toggle-icon"><i class="fa-solid fa-star"></i></div>
+            <h1>Hello, Friend!</h1>
+            <p>Join CardMitra and start maximizing every card swipe</p>
+            <button class="hidden" id="register">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 2 – ADD CARD (Onboarding)
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-addcard" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="goBack('screen-auth')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Add Your Card</span>
+      <div class="header-actions"></div>
+    </div>
+    <div class="addcard-body">
+      <div class="card-type-choice">
+        <h2>Choose Card Type</h2>
+        <p>Select the type of card you want to add</p>
+        <div class="card-type-grid">
+          <div class="card-type-btn active" data-type="credit" onclick="selectCardType('credit',this)">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>Credit Card</span>
+            <small>Earn points &amp; cashback on every purchase</small>
+          </div>
+          <div class="card-type-btn" data-type="debit" onclick="selectCardType('debit',this)">
+            <i class="fa-solid fa-building-columns"></i>
+            <span>Debit Card</span>
+            <small>Track debit rewards &amp; cashback offers</small>
+          </div>
+        </div>
+      </div>
+      <!-- Virtual Card Preview -->
+      <div class="virtual-card-preview" id="virtualCardPreview">
+        <div class="vc-chip"><i class="fa-solid fa-microchip"></i></div>
+        <div class="vc-network" id="vcNetwork"><i class="fa-brands fa-cc-visa"></i></div>
+        <div class="vc-number" id="vcNumber">XXXX XXXX XXXX 1234</div>
+        <div class="vc-bottom">
+          <div><small>CARD HOLDER</small>
+            <div id="vcName">YOUR NAME</div>
+          </div>
+          <div><small>VALID THRU</small>
+            <div id="vcExpiry">MM/YY</div>
+          </div>
+        </div>
+        <div class="vc-bankname" id="vcBank">Your Bank</div>
+        <div class="vc-type-badge" id="vcTypeBadge">CREDIT</div>
+      </div>
+      <!-- Card Details Form -->
+      <form class="addcard-form" id="addCardForm">
+        <div class="form-section">
+          <h3><i class="fa-solid fa-id-card"></i> Card Details</h3>
+        </div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="tel" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX"
+            oninput="formatCardNumber(this)" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="cardHolder" placeholder="As on card" oninput="updateCard()" />
+          </div>
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="tel" id="cardExpiry" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Bank Name</label>
+            <select id="cardBank" onchange="updateCard()">
+              <option value="">Select Bank</option>
+              <option>HDFC Bank</option>
+              <option>ICICI Bank</option>
+              <option>SBI</option>
+              <option>Axis Bank</option>
+              <option>Kotak Mahindra</option>
+              <option>Yes Bank</option>
+              <option>IndusInd Bank</option>
+              <option>American Express</option>
+              <option>Citibank</option>
+              <option>Standard Chartered</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Card Network</label>
+            <select id="cardNetwork" onchange="updateCard()">
+              <option value="visa">Visa</option>
+              <option value="mastercard">Mastercard</option>
+              <option value="rupay">RuPay</option>
+              <option value="amex">Amex</option>
+              <option value="diners">Diners Club</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Card Name / Variant</label>
+          <input type="text" id="cardName" placeholder="e.g. HDFC Regalia, SBI SimplyCLICK" oninput="updateCard()" />
+        </div>
+        <div class="form-group">
+          <label>Reward Rate (%)</label>
+          <input type="number" id="rewardRate" min="0" max="20" step="0.1" placeholder="e.g. 1.5" value="1" />
+        </div>
+        <div class="form-group">
+          <label>Lounge Access (visits/year)</label>
+          <input type="number" id="loungeAccess" min="0" max="50" placeholder="e.g. 8" value="0" />
+        </div>
+        <button type="button" class="primary-btn" onclick="addCard()">
+          <i class="fa-solid fa-plus"></i> Add Card Securely
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 3 – MAIN DASHBOARD
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-dashboard" class="screen">
+    <!-- Top Header -->
+    <div class="app-header dashboard-header">
+      <div class="user-greeting">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div>
+          <div class="greeting-text" id="greetingText">Good Morning!</div>
+          <div class="user-name-display" id="userNameDisplay">User</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="toggleTheme()" title="Toggle Dark Mode"><i class="fa-solid fa-moon"
+            id="themeIcon"></i></button>
+        <button class="icon-btn" onclick="showNotifications()" title="Notifications"><i
+            class="fa-solid fa-bell"></i><span class="notif-dot"></span></button>
+        <button class="icon-btn" onclick="showScreen('screen-profile')" title="Profile"><i
+            class="fa-solid fa-circle-user"></i></button>
+      </div>
+    </div>
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card" style="--accent:#4f46e5">
+        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="totalPoints">0</div>
+          <div class="stat-label">Total Points</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#10b981">
+        <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="totalCashback">₹0</div>
+          <div class="stat-label">Cashback</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#f59e0b">
+        <div class="stat-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="totalSavings">₹0</div>
+          <div class="stat-label">Savings</div>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#ef4444">
+        <div class="stat-icon"><i class="fa-solid fa-plane"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="totalLounge">0</div>
+          <div class="stat-label">Lounge Left</div>
+        </div>
+      </div>
+    </div>
+    <!-- Points Value Banner -->
+    <div class="points-banner">
+      <i class="fa-solid fa-gem"></i>
+      <span>Your <strong id="bannerPoints">0</strong> points are worth <strong id="bannerValue">₹0</strong></span>
+      <button onclick="showScreen('screen-rewards')" class="redeem-link">Redeem Now →</button>
+    </div>
+    <!-- My Cards -->
+    <div class="section-header">
+      <span>My Cards</span>
+      <button class="add-card-btn" onclick="showScreen('screen-addcard')"><i class="fa-solid fa-plus"></i> Add
+        Card</button>
+    </div>
+    <div class="cards-scroll" id="cardsScroll">
+      <div class="empty-state-small" id="noCardsMsg">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>No cards yet. Add your first card!</span>
+      </div>
+    </div>
+    <!-- Best Card Suggestion -->
+    <div class="best-card-widget" id="bestCardWidget" style="display:none">
+      <div class="bcw-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Best Card Right Now</div>
+      <div id="bcwContent"></div>
+    </div>
+    <!-- Recent Transactions -->
+    <div class="section-header">
+      <span>Recent Transactions</span>
+      <button onclick="showScreen('screen-transactions')" class="see-all">See All</button>
+    </div>
+    <div id="recentTxnList" class="txn-list">
+      <div class="empty-state-small"><i class="fa-solid fa-receipt"></i><span>No transactions yet</span></div>
+    </div>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="qa-btn" onclick="showScreen('screen-addtxn')"><i class="fa-solid fa-plus"></i><span>Add
+          Txn</span></button>
+      <button class="qa-btn" onclick="showScreen('screen-benefits')"><i
+          class="fa-solid fa-gift"></i><span>Benefits</span></button>
+      <button class="qa-btn" onclick="showScreen('screen-rewards')"><i
+          class="fa-solid fa-star"></i><span>Rewards</span></button>
+      <button class="qa-btn" onclick="showScreen('screen-ai')"><i class="fa-solid fa-robot"></i><span>AI
+          Help</span></button>
+      <button class="qa-btn" onclick="showScreen('screen-deals')"><i
+          class="fa-solid fa-tag"></i><span>Deals</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 4 – ADD TRANSACTION
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-addtxn" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Add Transaction</span>
+      <div></div>
+    </div>
+    <div class="form-body">
+      <div class="form-group">
+        <label>Merchant Name</label>
+        <input type="text" id="txnMerchant" placeholder="e.g. Amazon, Zomato, BPCL" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="number" id="txnAmount" min="0" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="txnDate" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Card Used</label>
+        <select id="txnCard"></select>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <div class="category-grid" id="categoryGrid">
+          <div class="cat-btn active" data-cat="Shopping" onclick="selectCat(this)"><i
+              class="fa-solid fa-bag-shopping"></i> Shopping</div>
+          <div class="cat-btn" data-cat="Travel" onclick="selectCat(this)"><i class="fa-solid fa-plane"></i> Travel
+          </div>
+          <div class="cat-btn" data-cat="Food" onclick="selectCat(this)"><i class="fa-solid fa-utensils"></i> Food</div>
+          <div class="cat-btn" data-cat="Entertainment" onclick="selectCat(this)"><i class="fa-solid fa-film"></i>
+            Entertainment</div>
+          <div class="cat-btn" data-cat="Fuel" onclick="selectCat(this)"><i class="fa-solid fa-gas-pump"></i> Fuel</div>
+          <div class="cat-btn" data-cat="Utilities" onclick="selectCat(this)"><i class="fa-solid fa-bolt"></i> Utilities
+          </div>
+          <div class="cat-btn" data-cat="Groceries" onclick="selectCat(this)"><i
+              class="fa-solid fa-basket-shopping"></i> Groceries</div>
+          <div class="cat-btn" data-cat="Other" onclick="selectCat(this)"><i class="fa-solid fa-ellipsis"></i> Other
+          </div>
+        </div>
+      </div>
+      <!-- Rewards Preview -->
+      <div class="reward-preview-card" id="rewardPreview">
+        <h3><i class="fa-solid fa-calculator"></i> Estimated Rewards</h3>
+        <div class="rp-grid">
+          <div class="rp-item"><span class="rp-label">Points Earned</span><span class="rp-val" id="previewPts">0</span>
+          </div>
+          <div class="rp-item"><span class="rp-label">Cashback</span><span class="rp-val" id="previewCb">₹0</span></div>
+          <div class="rp-item"><span class="rp-label">Points Value</span><span class="rp-val" id="previewPV">₹0</span>
+          </div>
+          <div class="rp-item"><span class="rp-label">Reward Rate</span><span class="rp-val" id="previewRate">0%</span>
+          </div>
+        </div>
+      </div>
+      <button class="primary-btn" onclick="addTransaction()"><i class="fa-solid fa-check"></i> Save Transaction</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 5 – TRANSACTION HISTORY
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-transactions" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Transaction History</span>
+      <div></div>
+    </div>
+    <div class="filter-tabs" id="txnFilter">
+      <button class="filter-tab active" data-filter="All" onclick="filterTxn('All',this)">All</button>
+      <button class="filter-tab" data-filter="Shopping" onclick="filterTxn('Shopping',this)"><i
+          class="fa-solid fa-bag-shopping"></i></button>
+      <button class="filter-tab" data-filter="Travel" onclick="filterTxn('Travel',this)"><i
+          class="fa-solid fa-plane"></i></button>
+      <button class="filter-tab" data-filter="Food" onclick="filterTxn('Food',this)"><i
+          class="fa-solid fa-utensils"></i></button>
+      <button class="filter-tab" data-filter="Fuel" onclick="filterTxn('Fuel',this)"><i
+          class="fa-solid fa-gas-pump"></i></button>
+      <button class="filter-tab" data-filter="Utilities" onclick="filterTxn('Utilities',this)"><i
+          class="fa-solid fa-bolt"></i></button>
+      <button class="filter-tab" data-filter="Groceries" onclick="filterTxn('Groceries',this)"><i
+          class="fa-solid fa-basket-shopping"></i></button>
+      <button class="filter-tab" data-filter="Entertainment" onclick="filterTxn('Entertainment',this)"><i
+          class="fa-solid fa-film"></i></button>
+    </div>
+    <div class="txn-summary-bar" id="txnSummaryBar"></div>
+    <div id="txnListFull" class="txn-list padded"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 6 – CARD BENEFITS HUB
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-benefits" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Card Benefits Hub</span>
+      <div></div>
+    </div>
+    <div class="benefits-card-selector">
+      <label>Select Card</label>
+      <select id="benefitsCardSelect" onchange="renderBenefits()"></select>
+    </div>
+    <div id="benefitsContent" class="benefits-grid-outer"></div>
+    <!-- Smart Comparison -->
+    <div class="section-header"><span>Smart Card Comparison</span></div>
+    <div class="compare-grid" id="compareGrid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 7 – REWARDS CENTER
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-rewards" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Rewards Center</span>
+      <div></div>
+    </div>
+    <div class="rewards-points-banner">
+      <div class="rpb-left">
+        <div class="rpb-label">Available Points</div>
+        <div class="rpb-value" id="rewardsPointsDisplay">0 pts</div>
+        <div class="rpb-worth" id="rewardsWorthDisplay">Worth ₹0</div>
+      </div>
+      <div class="rpb-right"><i class="fa-solid fa-gem"></i></div>
+    </div>
+    <div class="section-header"><span>Redeem Options</span></div>
+    <div class="redeem-grid" id="redeemGrid">
+      <div class="redeem-card" onclick="redeemOption('Lounge Pass','500')">
+        <div class="rc-icon" style="background:#4f46e5"><i class="fa-solid fa-couch"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Airport Lounge Pass</div>
+          <div class="rc-pts">500 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Flight Discount','2000')">
+        <div class="rc-icon" style="background:#0ea5e9"><i class="fa-solid fa-plane-departure"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Flight Discount</div>
+          <div class="rc-pts">2000 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Hotel Booking','1500')">
+        <div class="rc-icon" style="background:#f59e0b"><i class="fa-solid fa-hotel"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Hotel Booking</div>
+          <div class="rc-pts">1500 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Movie Tickets','300')">
+        <div class="rc-icon" style="background:#ef4444"><i class="fa-solid fa-film"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Movie Tickets</div>
+          <div class="rc-pts">300 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Gift Card','1000')">
+        <div class="rc-icon" style="background:#10b981"><i class="fa-solid fa-gift"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Gift Cards</div>
+          <div class="rc-pts">1000 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Shopping Voucher','750')">
+        <div class="rc-icon" style="background:#ec4899"><i class="fa-solid fa-tag"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Shopping Voucher</div>
+          <div class="rc-pts">750 pts</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Cashback Conversion','250')">
+        <div class="rc-icon" style="background:#8b5cf6"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Convert to Cashback</div>
+          <div class="rc-pts">250 pts = ₹25</div>
+        </div>
+      </div>
+      <div class="redeem-card" onclick="redeemOption('Partner Offers','400')">
+        <div class="rc-icon" style="background:#f97316"><i class="fa-solid fa-handshake"></i></div>
+        <div class="rc-info">
+          <div class="rc-title">Partner Offers</div>
+          <div class="rc-pts">400 pts</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-header"><span>Best Redemption for You</span></div>
+    <div class="best-redemption" id="bestRedemption"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 8 – CARDMITRA AI
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-ai" class="screen">
+    <div class="app-header" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')" style="color:#fff"><i
+          class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title" style="color:#fff"><i class="fa-solid fa-robot"></i> CardMitra AI</span>
+      <div></div>
+    </div>
+    <div class="ai-intro">
+      <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
+      <p>Hi! I'm your personal rewards expert. Ask me anything about your cards, points, or best deals!</p>
+    </div>
+    <div class="ai-quick-queries">
+      <button onclick="askAI('How many reward points do I have?')">📊 My Points</button>
+      <button onclick="askAI('Which card is best for Amazon shopping?')">🛒 Best for Amazon</button>
+      <button onclick="askAI('Which card gives maximum cashback for fuel?')">⛽ Best for Fuel</button>
+      <button onclick="askAI('How many lounge visits are left?')">✈️ Lounge Visits</button>
+      <button onclick="askAI('How much cashback did I earn this month?')">💰 Monthly Cashback</button>
+      <button onclick="askAI('Which is my best card for travel?')">🌍 Travel Card</button>
+      <button onclick="askAI('Which rewards are about to expire?')">⏰ Expiring Rewards</button>
+      <button onclick="askAI('What is the value of my total points?')">💎 Points Value</button>
+    </div>
+    <div class="ai-chat" id="aiChat"></div>
+    <div class="ai-input-bar">
+      <input type="text" id="aiInput" placeholder="Ask me anything about your cards..."
+        onkeydown="if(event.key==='Enter')sendAIMsg()" />
+      <button onclick="sendAIMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 9 – DEALS & OFFERS MARKETPLACE
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-deals" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Deals &amp; Offers</span>
+      <div></div>
+    </div>
+    <div class="deals-card-pick">
+      <label>Pay with Card:</label>
+      <select id="dealsCardSelect" onchange="renderDeals()"></select>
+    </div>
+    <div class="deals-categories">
+      <button class="deals-cat active" data-cat="all" onclick="dealsCatFilter('all',this)">All</button>
+      <button class="deals-cat" data-cat="electronics" onclick="dealsCatFilter('electronics',this)">Electronics</button>
+      <button class="deals-cat" data-cat="fashion" onclick="dealsCatFilter('fashion',this)">Fashion</button>
+      <button class="deals-cat" data-cat="health" onclick="dealsCatFilter('health',this)">Health</button>
+      <button class="deals-cat" data-cat="ecommerce" onclick="dealsCatFilter('ecommerce',this)">E-Commerce</button>
+    </div>
+    <div class="deals-grid" id="dealsGrid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+         SCREEN 10 – CUSTOMER CARE
+    ═══════════════════════════════════════════════════ -->
+  <div id="screen-care" class="screen">
+    <div class="app-header">
+      <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+      <span class="header-title">Customer Care</span>
+      <div></div>
+    </div>
+    <div class="care-body">
+      <div class="care-card">
+        <div class="care-icon" style="background:#ef4444"><i class="fa-solid fa-lock"></i></div>
+        <div class="care-info">
+          <div class="care-title">Block Card</div>
+          <div class="care-sub">Instantly block any of your cards</div>
+        </div>
+        <button onclick="blockCard()">Block</button>
+      </div>
+      <div class="care-card">
+        <div class="care-icon" style="background:#f59e0b"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="care-info">
+          <div class="care-title">Dispute Transaction</div>
+          <div class="care-sub">Raise a dispute for any transaction</div>
+        </div>
+        <button onclick="raiseDispute()">Raise</button>
+      </div>
+      <div class="care-card">
+        <div class="care-icon" style="background:#10b981"><i class="fa-brands fa-whatsapp"></i></div>
+        <div class="care-info">
+          <div class="care-title">WhatsApp Support</div>
+          <div class="care-sub">Chat with us on WhatsApp</div>
+        </div>
+        <a href="https://wa.me/18001234567" target="_blank"><button>Chat</button></a>
+      </div>
+      <div class="care-card">
+        <div class="care-icon" style="background:#4f46e5"><i class="fa-solid fa-phone"></i></div>
+        <div class="care-info">
+          <div class="care-title">Call Support</div>
+          <div class="care-sub">Talk to a card expert</div>
+        </div>
+        <a href="tel:18001234567"><button>Call</button></a>
+      </div>
+      <div class="care-card">
+        <div class="care-icon" style="background:#8b5cf6"><i class="fa-solid fa-envelope"></i></div>
+        <div class="care-info">
+          <div class="care-title">Email Support</div>
+          <div class="care-sub">support@cardmitra.in</div>
+        </div>
+        <a href="mailto:support@cardmitra.in"><button>Email</button></a>
+      </div>
+      <div class="care-card">
+        <div class="care-icon" style="background:#0ea5e9"><i class="fa-solid fa-clipboard-list"></i></div>
+        <div class="care-info">
+          <div class="care-title">Complaint Tracking</div>
+          <div class="care-sub">Track your open complaints</div>
+        </div>
+        <button onclick="trackComplaint()">Track</button>
+      </div>
+    </div>
+    <div class="section-header"><span>Bank Helpline Numbers</span></div>
+    <div class="helpline-grid" id="helplineGrid"></div>
+  </div>
