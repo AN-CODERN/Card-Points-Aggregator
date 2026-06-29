@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { font-family: 'Poppins', sans-serif; }
+  body { @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-primary-400 rounded-full; }
+}
+
+@layer components {
+  /* Virtual Card Shine */
+  .card-shine {
+    background: linear-gradient(135deg,rgba(255,255,255,0.15) 0%,transparent 60%);
+    pointer-events: none;
+  }
+  /* Gradient card backgrounds */
+  .card-gradient-1 { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); }
+  .card-gradient-2 { background: linear-gradient(135deg,#2d1b69 0%,#11998e 100%); }
+  .card-gradient-3 { background: linear-gradient(135deg,#c94b4b 0%,#4b134f 100%); }
+  .card-gradient-4 { background: linear-gradient(135deg,#134e5e 0%,#71b280 100%); }
+  .card-gradient-5 { background: linear-gradient(135deg,#373b44 0%,#4286f4 100%); }
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  .dark .shimmer {
+    background: linear-gradient(90deg,#2a2a2a 25%,#3a3a3a 50%,#2a2a2a 75%);
+    background-size: 200% 100%;
+  }
+  /* AI Chat bubbles */
+  .chat-user   { @apply bg-primary-600 text-white rounded-2xl rounded-br-sm px-4 py-2 max-w-xs ml-auto; }
+  .chat-ai     { @apply bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl rounded-bl-sm px-4 py-2 max-w-xs; }
+  /* Auth container preserved animations */
+  .auth-toggle { transition: all 0.6s ease-in-out; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Mobile-first max-width app shell */
+#root {
+  @apply min-h-screen w-full max-w-md mx-auto relative overflow-hidden;
+}
